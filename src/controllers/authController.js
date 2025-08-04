@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const Recipe = require('../models/Recipe');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const validateUserData = require('../utils/validateUser');
@@ -13,7 +14,11 @@ exports.register = async (req, res) => {
   const hashed = await bcrypt.hash(password, 10);
   const user = new User({ username, password: hashed , emal, favoriteDishes });
   await user.save();
-  res.status(201).send('Utente registrato');
+  // Crea un ricettario vuoto per l'utente
+  const emptyRecipe = new Recipe({ title: 'Ricettario personale', ingredients: [], instructions: '', userId: user._id });
+  await emptyRecipe.save();
+
+  res.status(201).send('Utente registrato e ricettario creato');
 };
 
 exports.login = async (req, res) => {
@@ -58,7 +63,8 @@ exports.deleteUser = async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.userId);
     if (!user) return res.status(404).send('Utente non trovato');
-    res.send('Utente eliminato');
+    await Recipe.deleteMany({ userId: req.userId });
+    res.send('Utente e ricette eliminate');
   } catch {
     res.status(500).send('Errore del server');
   }
