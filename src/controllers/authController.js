@@ -12,7 +12,7 @@ exports.register = async (req, res) => {
 
   const { username, password, email, favoriteDishes } = req.body;
   const hashed = await bcrypt.hash(password, 10);
-  const user = new User({ username, password: hashed , emal, favoriteDishes });
+  const user = new User({ username, password: hashed , email, favoriteDishes });
   await user.save();
   // Crea un ricettario vuoto per l'utente
   const emptyRecipe = new Recipe({ title: 'Ricettario personale', ingredients: [], instructions: '', userId: user._id });
