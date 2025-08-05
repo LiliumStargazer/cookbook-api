@@ -7,10 +7,15 @@ const reviewRoutes = require('./routes/review');
 
 const app = express();
 app.use(express.json());
-app.use(authRoutes);
-app.use('/api/recipes', recipeRoutes);
-app.use('/api/reviews', reviewRoutes);
+app.use('/auth', authRoutes);
+app.use('/recipe', recipeRoutes);
+app.use('/review', reviewRoutes);
 
-mongoose.connect(process.env.MONGO_URL).catch(console.error);
+mongoose.connect(process.env.MONGO_URL)
+    .then(() => console.log('Connessione a MongoDB riuscita'))
+    .catch(err => {
+        console.error('Errore connessione MongoDB:', err);
+        console.error('MONGO_URL:', process.env.MONGO_URL);
+    });
 
 module.exports = app;

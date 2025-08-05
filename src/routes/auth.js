@@ -7,7 +7,7 @@ const auth = require('../middleware/auth');
 // quindi richiedono un token JWT valido per accedere
 router.post('/register', authController.register);
 router.post('/login', authController.login);
-router.put('/api/user', auth, authController.updateUser);
-router.delete('/api/user', auth, authController.deleteUser);
+router.put('/user', auth, authController.updateUser);
+router.delete('/user', auth, authController.deleteUser);
 
 module.exports = router;

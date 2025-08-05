@@ -27,7 +27,8 @@ exports.createRecipe = async (req, res) => {
         const recipe = new Recipe(recipeData);
         await recipe.save();
         res.status(201).json(recipe);
-    } catch {
+    } catch (err){
+        console.log('Errore dettagliato:', err);
         res.status(500).send('Errore nella creazione della ricetta');
     }
 };
