@@ -5,7 +5,7 @@ const router = express.Router();
 const BASE_URL = 'https://www.themealdb.com/api/json/v1/1';
 
 // Cerca pasto per nome
-router.get('/search', async (req, res) => {
+router.get('/search-by-name', async (req, res) => {
   try {
     const { s } = req.query;
     const response = await axios.get(`${BASE_URL}/search.php?s=${s}`);

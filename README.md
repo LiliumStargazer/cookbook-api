@@ -50,10 +50,36 @@ npm test
 - `POST /review` - Crea recensione
 - `GET /review/meal/:idMeal` - Visualizza recensioni di una ricetta
 - `DELETE /review/:id` - Cancella recensione
-- `GET /mealdb/search` - Ricerca ricette tramite MealDB
+
+
+## Rotte MealDB
+
+Queste rotte permettono di interagire con l'API pubblica di TheMealDB:
+
+- `GET /mealdb/search-by-name`
+- Ricerca ricette tramite MealDB
+- `GET /mealdb/search?s=<nome>`
+  Cerca pasto per nome.
+- `GET /mealdb/search-by-letter?f=<lettera>`
+  Cerca pasti che iniziano con una lettera specifica.
+- `GET /mealdb/lookup?i=<id>`
+  Ottieni dettagli di un pasto tramite ID.
+- `GET /mealdb/random`
+  Restituisce un pasto casuale.
+- `GET /mealdb/categories`
+  Elenca tutte le categorie disponibili.
+- `GET /mealdb/list?type=<c|a|i>`
+  Elenca categorie (`c`), aree (`a`) o ingredienti (`i`).
+- `GET /mealdb/filter-by-ingredient?i=<ingrediente>`
+  Filtra pasti per ingrediente.
+- `GET /mealdb/filter-by-category?c=<categoria>`
+  Filtra pasti per categoria.
+- `GET /mealdb/filter-by-area?a=<area>`
+  Filtra pasti per area geografica.
+
+Tutti i parametri vanno passati come query string.
 
 ## Note
 
 - Tutte le rotte protette richiedono il token JWT nell’header `Authorization`.
 - Per testare le API puoi usare Postman o strumenti simili.
-
