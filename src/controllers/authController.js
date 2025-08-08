@@ -57,7 +57,19 @@ exports.login = async (req, res) => {
       return res.status(401).send('Credenziali non valide');
     }
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
-    res.json({ token });
+    
+    // Restituisci user senza password
+    const userWithoutPassword = {
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+      favoriteDishes: user.favoriteDishes
+    };
+    
+    res.json({ 
+      token, 
+      user: userWithoutPassword 
+    });
   } catch (err) {
     console.error('Errore in login:', err);
     res.status(500).send('Errore del server');
