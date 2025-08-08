@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www",
     "test": "jest"
   },
   "dependencies": {
@@ -19,6 +20,7 @@
     "bcrypt": "^6.0.0",
     "jest": "^30.0.5",
     "jsonwebtoken": "^9.0.2",
+    "nodemon": "^3.1.9",
     "supertest": "^7.1.4"
   }
 }

@@ -8,10 +8,26 @@ const validateUserUpdate = require('../utils/validateUserUpdate');
 exports.register = async (req, res) => {
   const error = validateUserData(req.body);
   if (error) {
+    console.log(req.body);
+    console.log(typeof req.body.username);
+    console.log('Errore in register:', error);
     return res.status(400).send(error);
   }
   try {
     const { username, password, email, favoriteDishes } = req.body;
+    
+    // Verifica se username già esiste
+    const existingUsername = await User.findOne({ username });
+    if (existingUsername) {
+      return res.status(400).send('Username già in uso');
+    }
+    
+    // Verifica se email già esiste
+    const existingEmail = await User.findOne({ email });
+    if (existingEmail) {
+      return res.status(400).send('Email già in uso');
+    }
+    
     const hashed = await bcrypt.hash(password, 10);
     const user = new User({ username, password: hashed, email, favoriteDishes });
     await user.save();
@@ -32,17 +48,18 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
   try {
-    const { username, password } = req.body;
-    if (!username || !password) {
-      return res.status(400).send('Username e password sono obbligatori');
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).send('Email e password sono obbligatori');
     }
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ email });
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).send('Credenziali non valide');
     }
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
     res.json({ token });
   } catch (err) {
+    console.error('Errore in login:', err);
     res.status(500).send('Errore del server');
   }
 };

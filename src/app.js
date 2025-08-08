@@ -7,9 +7,9 @@ const reviewRoutes = require('./routes/review');
 
 const app = express();
 app.use(express.json());
-app.use('/auth', authRoutes);
-app.use('/recipe', recipeRoutes);
-app.use('/review', reviewRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/recipe', recipeRoutes);
+app.use('/api/review', reviewRoutes);
 
 mongoose.connect(process.env.MONGO_URL)
     .then(() => console.log('Connessione a MongoDB riuscita'))
